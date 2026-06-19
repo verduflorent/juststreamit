@@ -1,0 +1,112 @@
+/*==================================
+RESET
+==================================*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*==================================
+GENERAL
+==================================*/
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f3f3;
+  color: #111;
+}
+
+main {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*==================================
+HEADER
+==================================*/
+
+header {
+  width: 90%;
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 20px;
+  background: #617a7b;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: white;
+}
+
+nav {
+  display: flex;
+  gap: 16px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+/*==================================
+SECTION
+==================================*/
+
+section {
+  margin-bottom: 32px;
+}
+
+section h2 {
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+}
+
+/*==================================
+MOVIE CARDS
+==================================*/
+
+.movies-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.movie-card {
+  cursor: pointer;
+  background: white;
+}
+
+.movie-card img {
+  width: 100%;
+  display: block;
+}
+
+.movie-card h3 {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+/*==================================
+TABLET
+==================================*/
+
+@media screen and (min-width: 768px) {
+  .movies-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/*==================================
+DESKTOP
+==================================*/
+
+@media screen and (min-width: 1024px) {
+  .movies-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
