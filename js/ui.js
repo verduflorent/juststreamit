@@ -12,7 +12,7 @@ function renderBestMovie(movie) {
           class="best-movie-image"
           src="${movie.image_url}"
           alt="Affiche du film ${movie.title}"
-          onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+          onerror="this.src='img/placeholder.jpg'; this.onerror=null;"
         >
 
         <div class="best-movie-content">
@@ -90,7 +90,7 @@ function openMovieModal(movie) {
         class="modal-image"
         src="${movie.image_url}"
         alt="Affiche du film ${movie.title}"
-        onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+        onerror="this.src='img/placeholder.jpg'; this.onerror=null;"
       >
 
       <div class="modal-directors">
@@ -133,7 +133,7 @@ function createMovieCard(movie) {
     <img
       src="${movie.image_url}"
       alt="Affiche du film ${movie.title}"
-      onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+      onerror="this.src='img/placeholder.jpg'; this.onerror=null;"
     >
 
     <div class="movie-overlay">

@@ -1,13 +1,11 @@
 // EL se déclanche lors du chargement du DOM
 document.addEventListener("DOMContentLoaded", async () => {
     // On trie le résultat de la fonction triée par le score IMDB
-  const data = await fetchData("/titles/?sort_by=-imdb_score&page_size=7");
+  const data = await fetchData("/titles/?sort_by=-imdb_score&page_size=13");
   // On définis le premier résultat du tri
   const bestMoviePreview = data.results[0];
     // On récuperes l'url du résultat trié
   const bestMovieDetails = await fetchUrl(bestMoviePreview.url);
-    // On affiche les résultats dans la console
-  console.log(bestMovieDetails);
     // On appel la fonction sur le résultat du tri
   renderBestMovie(bestMovieDetails);
 
