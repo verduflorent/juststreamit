@@ -64,30 +64,37 @@ function openMovieModal(movie) {
 
   modal.innerHTML = `
     <article class="modal-content">
-      <button type="button" class="modal-close" aria-label="Fermer la modale">×</button>
 
-      <div class="modal-header">
-        <div class="modal-info">
-          <h2>${movie.title}</h2>
+      <button
+        type="button"
+        class="modal-close"
+        aria-label="Fermer la modale"
+      >
+        ×
+      </button>
 
+      <div class="modal-info">
+
+        <h2>${movie.title}</h2>
+
+        <div class="modal-meta">
           <p><strong>${movie.year}</strong> - ${movie.genres.join(", ")}</p>
-          <p><strong>Classification :</strong> ${movie.rated || "Non renseignée"}</p>
-          <p><strong>Durée :</strong> ${movie.duration} minutes</p>
-          <p><strong>Pays :</strong> ${movie.countries.join(" / ")}</p>
+          <p><strong>${movie.rated || "Non renseigné"} - ${movie.duration} minutes</strong> (${movie.countries.join(" / ")})</p>
           <p><strong>IMDB score:</strong> ${movie.imdb_score}/10</p>
           <p><strong>Recettes au box-office:</strong> ${formatBoxOffice(movie.worldwide_gross_income)}</p>
         </div>
 
-        <img
-          class="modal-image"
-          src="${movie.image_url}"
-          alt="Affiche du film ${movie.title}"
-          onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
-        >
       </div>
 
+      <img
+        class="modal-image"
+        src="${movie.image_url}"
+        alt="Affiche du film ${movie.title}"
+        onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+      >
+
       <div class="modal-directors">
-        <p><strong>Réalisé par:</strong></p>
+        <p><strong>Réalisé par :</strong></p>
         <p>${movie.directors.join(", ")}</p>
       </div>
 
@@ -96,11 +103,14 @@ function openMovieModal(movie) {
       </p>
 
       <div class="modal-actors">
-        <p><strong>Avec:</strong></p>
+        <p><strong>Avec :</strong></p>
         <p>${movie.actors.join(", ")}</p>
       </div>
 
-      <button type="button" id="close-modal">Fermer</button>
+      <button type="button" id="close-modal">
+        Fermer
+      </button>
+
     </article>
   `;
 
@@ -140,15 +150,55 @@ function createMovieCard(movie) {
   return article;
 }
 
+const expandedSections = {};
+
+function getVisibleMovieCount() {
+  if (window.innerWidth >= 1024) {
+    return 6;
+  }
+
+  if (window.innerWidth >= 768) {
+    return 4;
+  }
+
+  return 2;
+}
+
 function renderMovieList(movies, containerSelector) {
   const container = document.querySelector(containerSelector);
+  const section = container.closest(".movie-section");
+  const sectionId = section.id;
+
+  const isExpanded = expandedSections[sectionId] || false;
 
   container.innerHTML = "";
 
-  movies.forEach((movie) => {
+  const visibleMovieCount = getVisibleMovieCount();
+  const visibleMovies = isExpanded ? movies : movies.slice(0, visibleMovieCount);
+
+  visibleMovies.forEach((movie) => {
     const movieCard = createMovieCard(movie);
     container.appendChild(movieCard);
   });
+
+  const existingButton = section.querySelector(".toggle-movies-button");
+
+  if (existingButton) {
+    existingButton.remove();
+  }
+
+  if (movies.length > visibleMovieCount) {
+    const button = document.createElement("button");
+    button.classList.add("toggle-movies-button");
+    button.textContent = isExpanded ? "Voir moins" : "Voir plus";
+
+    button.addEventListener("click", () => {
+      expandedSections[sectionId] = !isExpanded;
+      renderMovieList(movies, containerSelector);
+    });
+
+    container.after(button);
+  }
 }
 
 function populateGenreSelect(genres) {

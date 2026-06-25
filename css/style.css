@@ -186,6 +186,21 @@ MOVIE CARDS
   cursor: pointer;
 }
 
+.toggle-movies-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 8px 32px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: red;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /*==================================
 BEST MOVIE
 ==================================*/
@@ -305,19 +320,21 @@ MODAL
   cursor: pointer;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-}
-
 .modal-info {
   flex: 1;
+  min-width: 0;
+}
+
+.modal-meta p {
+  margin-bottom: 8px;
+  overflow-wrap: break-word;
 }
 
 .modal-image {
-  width: 180px;
-  height: auto;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
 }
 
 .modal-info h2 {
@@ -425,6 +442,45 @@ DESKTOP
 
   .best-movie-content p {
     max-width: 520px;
+  }
+
+  .modal-content {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-areas:
+      "info image"
+      "directors image"
+      "description description"
+      "actors actors"
+      "close close";
+    column-gap: 32px;
+  }
+
+  .modal-info {
+    grid-area: info;
+  }
+
+  .modal-image {
+    grid-area: image;
+    width: 220px;
+    max-width: 220px;
+    margin: 0;
+  }
+
+  .modal-directors {
+    grid-area: directors;
+  }
+
+  .modal-description {
+    grid-area: description;
+  }
+
+  .modal-actors {
+    grid-area: actors;
+  }
+
+  #close-modal {
+    grid-area: close;
   }
 }
 

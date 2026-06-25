@@ -29,7 +29,7 @@ async function fetchUrl(url) {
 }
 
 async function getMoviesByGenre(genre) {
-  const data = await fetchData(`/titles/?genre=${genre}&sort_by=-imdb_score&page_size=6`);
+  const data = await fetchData(`/titles/?genre=${genre}&sort_by=-imdb_score&page_size=12`);
   return data.results;
 }
 

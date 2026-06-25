@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // On appel la fonction sur le résultat du tri
   renderBestMovie(bestMovieDetails);
 
-  const topRatedMovies = data.results.slice(1, 7);
+  const topRatedMovies = data.results.slice(1, 13);
   renderMovieList(topRatedMovies, "#top-rated .movies-container");
 
   const actionMovies = await getMoviesByGenre("Action");
