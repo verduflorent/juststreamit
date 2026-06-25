@@ -7,18 +7,26 @@ function renderBestMovie(movie) {
   // On definis tout l'html de notre section
   section.innerHTML = `
     <h2>Meilleur film</h2>
-    <article>
-      <img
-        src="${movie.image_url}"
-        alt="Affiche du film ${movie.title}"
-        onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
-      >
-      <div>
-        <h3>${movie.title}</h3>
-        <p>${movie.long_description || movie.description || "Résumé indisponible."}</p>
-        <button type="button" id="best-movie-details">Détails</button>
-      </div>
-    </article>
+      <article class="best-movie-card">
+        <img
+          class="best-movie-image"
+          src="${movie.image_url}"
+          alt="Affiche du film ${movie.title}"
+          onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+        >
+
+        <div class="best-movie-content">
+
+            <h3>${movie.title}</h3>
+
+            <p>${movie.long_description || movie.description}</p>
+
+            <div class="best-movie-footer">
+                <button type="button" id="best-movie-details">Détails</button>
+            </div>
+
+        </div>
+      </article>
   `;
 
   // On définis le bouton par rapport a son id
@@ -30,30 +38,67 @@ function renderBestMovie(movie) {
 });
 }
 
+function formatBoxOffice(amount) {
+  if (!amount) {
+    return "Non renseigné";
+  }
+
+  if (amount >= 1_000_000_000) {
+    return `${(amount / 1_000_000_000).toFixed(1)} Md $`;
+  }
+
+  if (amount >= 1_000_000) {
+    return `${Math.round(amount / 1_000_000)} M $`;
+  }
+
+  if (amount >= 1_000) {
+    return `${Math.round(amount / 1_000)} k $`;
+  }
+
+  return `${amount} $`;
+}
+
 // Fonction d'ouverture modal des détails des films
 function openMovieModal(movie) {
   const modal = document.querySelector("#movie-modal");
 
   modal.innerHTML = `
-    <article>
-      <h2>${movie.title}</h2>
+    <article class="modal-content">
+      <button type="button" class="modal-close" aria-label="Fermer la modale">×</button>
 
-      <img
-        src="${movie.image_url}"
-        alt="Affiche du film ${movie.title}"
-        onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
-      >
+      <div class="modal-header">
+        <div class="modal-info">
+          <h2>${movie.title}</h2>
 
-      <p><strong>Genres :</strong> ${movie.genres.join(", ")}</p>
-      <p><strong>Date de sortie :</strong> ${movie.date_published}</p>
-      <p><strong>Classification :</strong> ${movie.rated || "Non renseignée"}</p>
-      <p><strong>Score IMDB :</strong> ${movie.imdb_score}</p>
-      <p><strong>Réalisateur :</strong> ${movie.directors.join(", ")}</p>
-      <p><strong>Acteurs :</strong> ${movie.actors.join(", ")}</p>
-      <p><strong>Durée :</strong> ${movie.duration} minutes</p>
-      <p><strong>Pays :</strong> ${movie.countries.join(", ")}</p>
-      <p><strong>Box-office :</strong> ${movie.worldwide_gross_income || "Non renseigné"}</p>
-      <p>${movie.long_description || movie.description || "Résumé indisponible."}</p>
+          <p><strong>${movie.year}</strong> - ${movie.genres.join(", ")}</p>
+          <p><strong>Classification :</strong> ${movie.rated || "Non renseignée"}</p>
+          <p><strong>Durée :</strong> ${movie.duration} minutes</p>
+          <p><strong>Pays :</strong> ${movie.countries.join(" / ")}</p>
+          <p><strong>IMDB score:</strong> ${movie.imdb_score}/10</p>
+          <p><strong>Recettes au box-office:</strong> ${formatBoxOffice(movie.worldwide_gross_income)}</p>
+        </div>
+
+        <img
+          class="modal-image"
+          src="${movie.image_url}"
+          alt="Affiche du film ${movie.title}"
+          onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
+        >
+      </div>
+
+      <div class="modal-directors">
+        <p><strong>Réalisé par:</strong></p>
+        <p>${movie.directors.join(", ")}</p>
+      </div>
+
+      <p class="modal-description">
+        ${movie.long_description || movie.description || "Résumé indisponible."}
+      </p>
+
+      <div class="modal-actors">
+        <p><strong>Avec:</strong></p>
+        <p>${movie.actors.join(", ")}</p>
+      </div>
 
       <button type="button" id="close-modal">Fermer</button>
     </article>
@@ -62,6 +107,10 @@ function openMovieModal(movie) {
   modal.showModal();
 
   document.querySelector("#close-modal").addEventListener("click", () => {
+    modal.close();
+  });
+
+  document.querySelector(".modal-close").addEventListener("click", () => {
     modal.close();
   });
 }
@@ -76,7 +125,11 @@ function createMovieCard(movie) {
       alt="Affiche du film ${movie.title}"
       onerror="this.src='https://picsum.photos/300/450'; this.onerror=null;"
     >
-    <h3>${movie.title}</h3>
+
+    <div class="movie-overlay">
+      <h3>${movie.title}</h3>
+      <button type="button">Détails</button>
+    </div>
   `;
 
   article.addEventListener("click", async () => {
