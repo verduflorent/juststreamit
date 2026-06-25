@@ -40,8 +40,8 @@ header {
   border: 1px solid #111;
 
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 48px;
 }
 
 .brand {
@@ -57,6 +57,7 @@ header {
 }
 
 header p {
+  display:none;
   color: white;
   font-size: 1.4rem;
   font-family: "Oswald", Arial, sans-serif;
@@ -71,8 +72,35 @@ section {
 }
 
 section h2 {
-  margin-bottom: 16px;
-  font-size: 1.3rem;
+  margin-bottom: 24px;
+  font-size: 2.2rem;
+  text-align: center;
+}
+
+/*==================================
+SELECT
+==================================*/
+
+.category-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.category-select-wrapper label {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.4rem;
+}
+
+#genre-select {
+  min-width: 220px;
+  padding: 8px 40px 8px 12px;
+  font-family: "Oswald", sans-serif;
+  font-size: 1rem;
+  border: 1px solid #111;
+  background: white;
+  cursor: pointer;
 }
 
 /*==================================
@@ -80,20 +108,23 @@ MOVIE CARDS
 ==================================*/
 
 .movies-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  justify-content: center;
+    display: grid;
+    gap: 20px;
 }
 
 .movie-card {
   position: relative;
-  width: 100%;
-  max-width: 180px;
+  width: 220px;
+  margin: 0 auto;
   aspect-ratio: 1 / 1;
   cursor: pointer;
   overflow: hidden;
   background: black;
+}
+
+.movie-section {
+    max-width: 837px;
+    margin: 0 auto 40px;
 }
 
 .movie-card img {
@@ -174,26 +205,32 @@ BEST MOVIE
   background: white;
   border: 2px solid black;
   padding: 16px;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .best-movie-image {
-  width: 150px;
-  height: 220px;
+  display: block;
+  width: 190px;
+  height: 280px;
   object-fit: cover;
+  margin: 0 auto;
 }
 
 .best-movie-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 18px;
+  text-align: center;
 }
 
 .best-movie-content h3 {
-  font-size: 1.6rem;
+  font-size: 2.2rem;
 }
 
 .best-movie-content p {
-  max-width: 420px;
+  max-width: 90%;
   font-size: 1.1rem;
   line-height: 1.5;
 }
@@ -205,8 +242,6 @@ BEST MOVIE
 }
 
 .best-movie-content button {
-  margin-top: 18px;
-  align-self: flex-end;
   padding: 12px 28px;
   border: none;
   border-radius: 16px;
@@ -312,9 +347,48 @@ TABLET
 ==================================*/
 
 @media screen and (min-width: 768px) {
+
+  section h2 {
+  text-align: left;
+  }
+
+  header {
+    justify-content: flex-start;
+    gap: 48px;
+  }
+
+  header p {
+    display: block;
+  }
+
   .movies-container {
-    grid-template-columns: repeat(2, 180px);
-    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .movie-card {
+    width: 100%;
+  }
+
+  .best-movie-card {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+  }
+
+  .best-movie-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .best-movie-content p {
+    max-width: 420px;
+  }
+
+  .best-movie-image {
+    width: 170px;
+    height: 250px;
+    margin: 0;
   }
 }
 
@@ -324,12 +398,6 @@ DESKTOP
 
 @media screen and (min-width: 1024px) {
   .movies-container {
-    grid-template-columns: repeat(3, 180px);
-    justify-content: start;
-  }
-}
-
-  .movies-container {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -338,12 +406,6 @@ DESKTOP
     gap: 24px;
     padding: 12px;
     border: 3px solid black;
-  }
-
-  .best-movie-image {
-    width: 150px;
-    height: 220px;
-    flex: 0 0 150px;
   }
 
   .best-movie-content {
@@ -357,11 +419,6 @@ DESKTOP
 
   .best-movie-content p {
     max-width: 520px;
-  }
-
-  .best-movie-content button {
-    margin-top: 12px;
-    align-self: flex-end;
   }
 }
 
