@@ -27,6 +27,12 @@ main {
   margin: 0 auto;
 }
 
+.logo {
+    width: 90px;
+    height: auto;
+    display: block;
+}
+
 /*==================================
 HEADER
 ==================================*/
