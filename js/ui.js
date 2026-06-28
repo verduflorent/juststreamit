@@ -1,4 +1,17 @@
-// Fonction Rendu du film le mieux noté
+/**
+ * @file Contient les fonctions d'affichage et d'interaction de l'interface JustStreamIt.
+ */
+
+/**
+ * Affiche le film le mieux noté dans la section dédiée.
+ *
+ * @param {Object} movie - Informations détaillées du film à mettre en avant.
+ * @param {string} movie.title - Titre du film.
+ * @param {string} movie.image_url - URL de l'affiche du film.
+ * @param {string} [movie.long_description] - Description longue du film.
+ * @param {string} [movie.description] - Description courte du film.
+ * @returns {void}
+ */
 function renderBestMovie(movie) {
     // On défini la variable section qui acceuille le film avec l'id best-movie
     // Le Query selector effectue une requête en fonction d'un critère précis
@@ -38,6 +51,12 @@ function renderBestMovie(movie) {
 });
 }
 
+/**
+ * Formate un montant de box-office pour un affichage compact.
+ *
+ * @param {number|null|undefined} amount - Montant brut des recettes mondiales.
+ * @returns {string} Montant formaté ou texte de remplacement si la donnée est absente.
+ */
 function formatBoxOffice(amount) {
   if (!amount) {
     return "Non renseigné";
@@ -58,7 +77,25 @@ function formatBoxOffice(amount) {
   return `${amount} $`;
 }
 
-// Fonction d'ouverture modal des détails des films
+/**
+ * Ouvre une modale contenant les informations détaillées d'un film.
+ *
+ * @param {Object} movie - Informations détaillées du film à afficher.
+ * @param {string} movie.title - Titre du film.
+ * @param {number} movie.year - Année de sortie du film.
+ * @param {string[]} movie.genres - Genres associés au film.
+ * @param {string} [movie.rated] - Classification du film.
+ * @param {number} movie.duration - Durée du film en minutes.
+ * @param {string[]} movie.countries - Pays de production du film.
+ * @param {number} movie.imdb_score - Note IMDB du film.
+ * @param {number} [movie.worldwide_gross_income] - Recettes mondiales du film.
+ * @param {string} movie.image_url - URL de l'affiche du film.
+ * @param {string[]} movie.directors - Réalisateurs du film.
+ * @param {string} [movie.long_description] - Description longue du film.
+ * @param {string} [movie.description] - Description courte du film.
+ * @param {string[]} movie.actors - Acteurs principaux du film.
+ * @returns {void}
+ */
 function openMovieModal(movie) {
   const modal = document.querySelector("#movie-modal");
 
@@ -125,6 +162,15 @@ function openMovieModal(movie) {
   });
 }
 
+/**
+ * Crée une carte de film cliquable pour une liste de films.
+ *
+ * @param {Object} movie - Film à transformer en carte.
+ * @param {string} movie.title - Titre du film.
+ * @param {string} movie.image_url - URL de l'affiche du film.
+ * @param {string} movie.url - URL de détail du film dans l'API.
+ * @returns {HTMLElement} Élément article représentant la carte du film.
+ */
 function createMovieCard(movie) {
   const article = document.createElement("article");
   article.classList.add("movie-card");
@@ -150,8 +196,21 @@ function createMovieCard(movie) {
   return article;
 }
 
+/**
+ * État d'ouverture des sections de films.
+ *
+ * Chaque clé correspond à l'id d'une section, et la valeur indique si tous les
+ * films de cette section doivent être affichés.
+ *
+ * @type {Object.<string, boolean>}
+ */
 const expandedSections = {};
 
+/**
+ * Détermine le nombre de films visibles selon la largeur de l'écran.
+ *
+ * @returns {number} Nombre de cartes à afficher avant le bouton "Voir plus".
+ */
 function getVisibleMovieCount() {
   if (window.innerWidth >= 1024) {
     return 6;
@@ -164,6 +223,16 @@ function getVisibleMovieCount() {
   return 2;
 }
 
+/**
+ * Affiche une liste de films dans une section donnée.
+ *
+ * La fonction gère aussi le bouton "Voir plus / Voir moins" lorsque le nombre
+ * de films dépasse la limite visible pour la taille d'écran courante.
+ *
+ * @param {Object[]} movies - Liste des films à afficher.
+ * @param {string} containerSelector - Sélecteur CSS du conteneur qui reçoit les cartes.
+ * @returns {void}
+ */
 function renderMovieList(movies, containerSelector) {
   const container = document.querySelector(containerSelector);
   const section = container.closest(".movie-section");
@@ -201,6 +270,13 @@ function renderMovieList(movies, containerSelector) {
   }
 }
 
+/**
+ * Remplit le menu déroulant des genres avec les valeurs renvoyées par l'API.
+ *
+ * @param {Object[]} genres - Liste des genres disponibles.
+ * @param {string} genres[].name - Nom affiché et valeur du genre.
+ * @returns {void}
+ */
 function populateGenreSelect(genres) {
   const select = document.querySelector("#genre-select");
 
@@ -216,6 +292,12 @@ function populateGenreSelect(genres) {
   });
 }
 
+/**
+ * Met à jour la catégorie dynamique lorsque l'utilisateur sélectionne un genre.
+ *
+ * @param {Event} event - Événement de changement déclenché par le menu des genres.
+ * @returns {Promise<void>} Promesse résolue lorsque la nouvelle liste est affichée.
+ */
 async function handleGenreChange(event) {
   const selectedGenre = event.target.value;
 
